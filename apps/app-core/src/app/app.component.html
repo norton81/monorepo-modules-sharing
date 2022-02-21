@@ -1,1 +1,13 @@
-<monorepo-proto-nx-welcome></monorepo-proto-nx-welcome>
+<!--<monorepo-proto-nx-welcome></monorepo-proto-nx-welcome>-->
+<h1>
+    {{title}}
+  </h1>
+  <div>
+    <a style="margin-right: 20px" [routerLink]="['/app1']">
+      Link To App1
+    </a>
+    <a [routerLink]="['/app2']">
+      Link To App2
+    </a>
+  </div>
+  <router-outlet></router-outlet>
