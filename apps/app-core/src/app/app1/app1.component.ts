@@ -5,7 +5,7 @@ import {
   ViewChildren,
   AfterViewInit,
   ViewContainerRef,
-  Injector, ViewChild, Compiler, ComponentFactory, ComponentFactoryResolver, ChangeDetectorRef, AfterContentInit
+  Injector, ViewChild, Optional, ComponentFactory, ComponentFactoryResolver, ChangeDetectorRef, AfterContentInit, Inject
 } from '@angular/core';
 import { Feature2Component } from "./feature2/feature2.component";
 import { Feature1Component } from "./feature1/feature1.component";
@@ -26,8 +26,8 @@ export class App1Component {
   constructor(
       private injector: Injector,
       private componentFactoryResolver: ComponentFactoryResolver,
-      private dynamicResolver: DynamicComponentsResolver,
-      private fb: FormBuilder
+      private fb: FormBuilder,
+      @Optional() @Inject('DEPENDENCY_RESOLVER') private dynamicResolver: DynamicComponentsResolver
   ) {
   }
 
@@ -38,40 +38,22 @@ export class App1Component {
     feature3Name: 'Feature 3',
   };
 
-  @ViewChildren('feature', {read: ElementRef} ) featuresElements: QueryList<ElementRef> = new QueryList<ElementRef>();
   @ViewChild('container', {read: ViewContainerRef} ) container: ViewContainerRef | undefined;
 
   public async ngOnInit() {
-    const replacedComponents = await this.dynamicResolver.getDynamicComponents();
-    this.dynamicComponents.filter((dc) => {});
-
-    //this.dynamicComponents
-    this.initFeatures();
+    if(this.dynamicResolver) {
+      this.dynamicComponents = await this.dynamicResolver.getDynamicComponents(this.dynamicComponents);
+    }
+    setTimeout(() => {
+      this.initFeatures();
+    });
   }
 
   private initFeatures() {
     this.container?.clear();
-    this.featuresElements.forEach((element, index) => {
-      const componentSelector = element.nativeElement.getAttribute('name');
-      const dynamicComponent = this.dynamicComponents.find((component) =>
-          (this.componentFactoryResolver.resolveComponentFactory(component).selector === componentSelector)
-      );
-      if (!dynamicComponent) {
-        throw new Error('There is no dynamic component matched with template element');
-      }
-      const descriptor = this.dynamicResolver.descriptors[componentSelector];
-      const component = (descriptor && descriptor.mode === 'replace') ? descriptor.component : dynamicComponent;
-      if (descriptor && descriptor.mode === 'remove') {
-        return;
-      }
-      if (descriptor && descriptor.mode === 'add-before') {
-        this.createComponent(descriptor.component);
-      }
+    this.dynamicComponents.forEach((component)=>{
       this.createComponent(component);
-      if (descriptor && descriptor.mode === 'add-after') {
-        this.createComponent(descriptor.component);
-      }
-    });
+    })
   }
 
   private createComponent(component: any) {

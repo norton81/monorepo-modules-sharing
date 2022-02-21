@@ -1,7 +1,10 @@
 {
   "version": 2,
   "projects": {
+    "app-client1": "apps/app-client1",
+    "app-client1-e2e": "apps/app-client1-e2e",
     "app-core": "apps/app-core",
-    "app-core-e2e": "apps/app-core-e2e"
+    "app-core-e2e": "apps/app-core-e2e",
+    "shared-lib": "libs/shared-lib"
   }
 }
