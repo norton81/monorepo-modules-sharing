@@ -7,6 +7,7 @@
 
 # dependencies
 /node_modules
+/apps/app-client1-backend/node_modules
 
 # IDEs and editors
 /.idea
