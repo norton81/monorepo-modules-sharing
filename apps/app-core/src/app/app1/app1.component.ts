@@ -11,8 +11,8 @@ import { Feature2Component } from "./feature2/feature2.component";
 import { Feature1Component } from "./feature1/feature1.component";
 import {Feature3Component} from "./feature3/feature3.component";
 import {DynamicComponentsResolver} from "../dynamic-component-resolver.service";
-import {FormBuilder, FormGroup} from "@angular/forms";
-import {FeatureComponent} from "../IFeatureComponent";
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import {IFeature} from "../IFeature";
 
 @Component({
   selector: 'app-app1',
@@ -27,11 +27,15 @@ export class App1Component {
       private injector: Injector,
       private componentFactoryResolver: ComponentFactoryResolver,
       private fb: FormBuilder,
+      private changeDetectorRef: ChangeDetectorRef,
       @Optional() @Inject('DEPENDENCY_RESOLVER') private dynamicResolver: DynamicComponentsResolver
   ) {
   }
 
-  public form: FormGroup = this.fb.group({});
+  public form = this.fb.group({});
+  public bus = this.fb.group({
+    submitDisabled: new FormControl(false),
+  });
   public model = {
     feature1Name: 'Feature 1',
     feature2Name: 'Feature 2',
@@ -41,12 +45,10 @@ export class App1Component {
   @ViewChild('container', {read: ViewContainerRef} ) container: ViewContainerRef | undefined;
 
   public async ngOnInit() {
-    if(this.dynamicResolver) {
-      this.dynamicComponents = await this.dynamicResolver.getDynamicComponents(this.dynamicComponents);
-    }
-    setTimeout(() => {
-      this.initFeatures();
-    });
+    this.dynamicComponents =
+      await this.dynamicResolver.getDynamicComponents(this.dynamicComponents);
+    this.initFeatures();
+    this.changeDetectorRef.detectChanges();
   }
 
   private initFeatures() {
@@ -62,12 +64,13 @@ export class App1Component {
       parent: this.injector,
     });
 
-    const componentRef = this?.container?.createComponent<FeatureComponent>(component, {
+    const componentRef = this?.container?.createComponent<IFeature>(component, {
       injector: this.injector
     });
 
     if(componentRef) {
       componentRef.instance.form = this.form;
+      componentRef.instance.bus = this.bus;
       componentRef.instance.model = this.model;
       componentRef.instance.changed.subscribe(this.featureChanged);
     }

@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {Feature3Component} from "./feature3.component";
+import {Feature4Component} from "./feature4.component";
 
 @NgModule({
   imports: [
     CommonModule,
     ReactiveFormsModule
   ],
-  declarations: [Feature3Component]
+  declarations: [Feature4Component]
 })
-export class Feature3Module { }
+export class Feature4Module { }

@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {FormGroup} from "@angular/forms";
+import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-feature3',
@@ -7,7 +7,12 @@ import {FormGroup} from "@angular/forms";
   styleUrls: ['./feature3.component.scss']
 })
 export class Feature3Component {
-  @Input() form: FormGroup | undefined;
+  @Input() form: FormGroup;
+  @Input() bus: FormGroup;
   @Input() model: any;
   @Output() changed = new EventEmitter<any>();
+
+  get isDisabled() {
+    return (this.bus?.get('submitDisabled') as FormControl);
+  }
 }

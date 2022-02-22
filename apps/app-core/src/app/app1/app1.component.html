@@ -5,6 +5,6 @@
     <!--<div #feature name="app-feature1"></div>-->
     <div #feature name="app-feature1"></div>
     <div #feature name="app-feature3"></div>
-    {{form.value | json}}
-    <button type="submit">apply</button>
+    {{form.value | json}}/{{bus.get('submitDisabled')?.value | json}}
+    <button type="submit" [disabled]="bus.get('submitDisabled')?.value">apply</button>
 </form>

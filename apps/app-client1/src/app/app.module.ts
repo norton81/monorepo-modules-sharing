@@ -7,12 +7,16 @@ import { RouterModule } from '@angular/router';
 import { AppRoutingModule } from './app.routing.module';
 import { DynamicComponentsResolver } from './dynamic-component-resolver.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Feature2Module } from './app1/feature2/feature2.module';
+import { App1Module } from './app1/app1.module';
 
 @NgModule({
   declarations: [AppComponent, NxWelcomeComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    ReactiveFormsModule,
+    App1Module
   ],
   providers: [
   {provide: 'DEPENDENCY_RESOLVER', useClass: DynamicComponentsResolver}

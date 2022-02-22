@@ -1,14 +1,15 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {AbstractControl, FormArray, FormControl, FormGroup} from "@angular/forms";
-import {FeatureComponent} from "../../IFeatureComponent";
+import {IFeature} from "../../IFeature";
 
 @Component({
   selector: 'app-feature2',
   templateUrl: './feature2.component.html',
   styleUrls: ['./feature2.component.scss']
 })
-export class Feature2Component implements FeatureComponent {
-  @Input() form: FormGroup = new FormGroup({});
+export class Feature2Component {
+  @Input() form: FormGroup;
+  @Input() bus: FormGroup;
   @Input() model: any;
   @Output() changed = new EventEmitter<any>();
 
