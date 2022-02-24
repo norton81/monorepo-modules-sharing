@@ -1,19 +1,15 @@
 <div style="background-color: beige; padding: 10px" [formGroup]="form">
-    <h2>
-        Core ({{model?.feature1Name}})
-    </h2>
+    <h2>Core (Feature 1)</h2>
     <h3>Total: {{bus?.get("total")?.value}}</h3>
-    <p>feature1 from App-Core/app1 works!</p>
-    <p>
-        <span>First Name</span><input [formControlName]="'firstName'">
-    </p>
-    <p>
-        <span>Second Name</span><input [formControlName]="'secondName'">
-    </p>
-    <!--<p>
-        {{form?.value | json}}
-    </p>-->
-    <p>
-        <button (click)="addEmployee()">&#x2B;</button>
-    </p>
+    <div formGroupName="current">
+        <p>
+            <span>ID</span> {{form.get('current')?.value.id}}
+        </p>
+        <p>
+            <span>First Name</span><input [formControlName]="'firstName'">
+        </p>
+        <p>
+            <span>Second Name</span><input [formControlName]="'secondName'">
+        </p>
+    </div>
 </div>

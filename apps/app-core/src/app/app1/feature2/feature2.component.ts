@@ -1,6 +1,5 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
 import {AbstractControl, FormArray, FormControl, FormGroup} from "@angular/forms";
-import {IFeature} from "../../IFeature";
 
 @Component({
   selector: 'app-feature2',
@@ -18,21 +17,36 @@ export class Feature2Component {
   }
 
   ngOnInit() {
-    const array = new FormArray([
-        new FormGroup({
-          firstName: new FormControl('Ivan'),
-          secondName: new FormControl('Petrov')
-        }),
-        new FormGroup({
-          firstName: new FormControl('Savely'),
-          secondName: new FormControl('Kramorov')
-        }),
-    ])
+    const array = new FormArray([])
     this.form?.addControl('employees',array);
   }
 
-  onRemove(item: AbstractControl, index: number) {
+  ngOnChanges(changes: SimpleChanges) {
+    const control = this.form.get('employees') as FormArray;
+    if(changes['model']?.currentValue) {
+      control.clear();
+      this.model.employees.forEach( (emp: any, index: any)=> {
+        control.insert(index, new FormGroup({
+          firstName: new FormControl(emp.firstName),
+          secondName: new FormControl(emp.secondName),
+          id: new FormControl(emp.id)
+        }))
+      })
+    }
+  }
+
+  createNew() {
+    this.form.get('current')?.patchValue({id: '', firstName: '', secondName: ''})
+  }
+
+  remove(item: AbstractControl, index: number) {
     const control = this.form.get('employees') as FormArray;
     control.removeAt(index);
+  }
+
+  edit(item: AbstractControl, index: number) {
+    const model = {...this.model}
+    model.current = item?.value;
+    this.changed.emit(model);
   }
 }

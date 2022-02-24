@@ -1,8 +1,6 @@
 <div style="background-color: azure; padding: 10px" [formGroup]="form">
-    <h2>
-        Core ({{model?.feature2Name}})
-    </h2>
-    <p>feature2 from App-Core/app1 works!</p>
+    <h2>Core (Feature 2)</h2>
+    <a href="javascript: void(0);" (click)="createNew()">Create New</a>
 
     <div formArrayName="employees">
         <div *ngFor="let item of stocks; let i = index;">
@@ -15,9 +13,12 @@
                     <span>Second Name</span>
                     <input formControlName="secondName">
                 </span>
-                <button (click)="onRemove(item, i)">&#10060;</button>
+                <button style='background-color: palevioletred' (click)="remove(item, i)">&#45;</button>
+                <button (click)="edit(item, i)">&#94;</button>
             </div>
         </div>
     </div>
+<!--
     <button (click)="changed.emit('feature2')">feature 2 click</button>
+-->
 </div>

@@ -6,7 +6,7 @@ import {Feature2Component} from "./feature2.component";
 @NgModule({
     imports: [
         CommonModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
     ],
     declarations: [Feature2Component]
 })
