@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
-import {AbstractControl, FormArray, FormControl, FormGroup} from "@angular/forms";
+import { AbstractControl, FormArray, FormControl, FormGroup, Validator, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-feature2',

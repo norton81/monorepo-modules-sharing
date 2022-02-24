@@ -1,23 +1,24 @@
-<div style="background-color: azure; padding: 10px" [formGroup]="form">
-  <h1>
-    Client ({{model?.feature2Name}})
-  </h1>
-  <p>feature2 from App-Client1/app1 works!</p>
+<div style="background-color: cornflowerblue; padding: 10px" [formGroup]="form">
+  <h1>[Client] (Feature 2)</h1>
+
   <div formArrayName="employees">
     <div *ngFor="let item of stocks; let i = index;">
-      <div [formGroup]="item" style="padding: 10px">
-                <span>
-                    <span>First Name</span>
-                    <input formControlName="firstName">
-                </span>
-                <span>
-                    <span>Second Name</span>
-                    <input formControlName="secondName">
-                </span>
-        <button (click)="onRemove(item, i)">&#10060;</button>
+      <div [formGroup]="$any(item)" style="padding: 10px">
+        <span>
+          <span>First Name</span>
+          <input formControlName="firstName">
+        </span>
+        <span>
+          <span>Second Name</span>
+          <input formControlName="secondName">
+        </span>
+        <button style='background-color: palevioletred' (click)="remove(item, i)">&#45;</button>
+        <button (click)="edit(item, i)">&#94;</button>
       </div>
     </div>
   </div>
-
-  <button (click)="changed.emit('feature2')">feature 2 click</button>
+  <button (click)="createNew()">Create New</button>
+  <!--
+      <button (click)="changed.emit('feature2')">feature 2 click</button>
+  -->
 </div>

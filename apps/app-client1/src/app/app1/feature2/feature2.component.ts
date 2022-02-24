@@ -1,5 +1,5 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, Output } from '@angular/core';
-import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
+import {AbstractControl, FormArray, FormControl, FormGroup} from "@angular/forms";
 
 @Component({
   selector: 'app-feature2',
@@ -13,38 +13,40 @@ export class Feature2Component {
   @Output() changed = new EventEmitter<any>();
 
   get stocks() {
-    return (this.form?.get('employees') as any)?.controls;
+    return (this?.form?.get('employees') as FormArray)?.controls || [];
   }
-
-  constructor(private cd: ChangeDetectorRef,private fb: FormBuilder) {
-  }
-
 
   ngOnInit() {
-    debugger
-    const array = new FormArray([
-      this.fb.group({
-        firstName: this.fb.control('Ivan1'),
-        secondName: this.fb.control('Petrov1')
-      }),
-      this.fb.group({
-        firstName: this.fb.control('Savely1'),
-        secondName: this.fb.control('Kramorov1')
-      }),
-    ])
+    const array = new FormArray([])
     this.form?.addControl('employees',array);
-    debugger
-    console.log('*****',array instanceof FormArray);
-    //const controls = this.form?.get('employees') as any;
-    //console.log('*****',controls instanceof FormArray);
-    console.log('*****',this.form.get(["employees"]) instanceof FormArray);
-
   }
 
-  onRemove(item: AbstractControl, index: number) {
-    const control = this.form?.get('employees') as any;
+  ngOnChanges(changes: SimpleChanges) {
+    const control = this.form.get('employees') as FormArray;
+    if(changes['model']?.currentValue) {
+      control.clear();
+      this.model.employees.forEach( (emp: any, index: any)=> {
+        control.insert(index, new FormGroup({
+          firstName: new FormControl(emp.firstName),
+          secondName: new FormControl(emp.secondName),
+          id: new FormControl(emp.id)
+        }))
+      })
+    }
+  }
+
+  createNew() {
+    this.form.get('current')?.patchValue({id: '', firstName: '', secondName: ''})
+  }
+
+  remove(item: AbstractControl, index: number) {
+    const control = this.form.get('employees') as FormArray;
     control.removeAt(index);
-    //this.cd.detectChanges();
+  }
+
+  edit(item: AbstractControl, index: number) {
+    const model = {...this.model}
+    model.current = item?.value;
+    this.changed.emit(model);
   }
 }
-

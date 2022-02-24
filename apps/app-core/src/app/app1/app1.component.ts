@@ -110,6 +110,10 @@ export class App1Component {
   }
 
   public async submit() {
+    if(this.form.invalid) {
+      console.log('FORM IS INVALID');
+      return;
+    }
     let model = await this.employee.saveEmployee(this.form.value);
     this.refreshModel(model);
   }

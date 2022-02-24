@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
-import { FormArray, FormControl, FormGroup } from "@angular/forms";
+import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { IFeature } from "../../IFeature";
 
 @Component({
@@ -14,10 +14,9 @@ export class Feature1Component implements IFeature {
   @Output() changed = new EventEmitter<any>();
 
   ngOnInit() {
-    debugger;
     this.form?.addControl('current', new FormGroup({
-      firstName: new FormControl(''),
-      secondName: new FormControl(''),
+      firstName: new FormControl('', [Validators.required, Validators.maxLength(20)]),
+      secondName: new FormControl('', Validators.required),
       id: new FormControl(''),
     }));
     this.form?.get('firstName')?.valueChanges.subscribe(this.emitEvent.bind(this));

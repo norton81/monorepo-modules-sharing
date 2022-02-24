@@ -1,15 +1,20 @@
 <div style="background-color: beige; padding: 10px" [formGroup]="form">
     <h2>Core (Feature 1)</h2>
-    <h3>Total: {{bus?.get("total")?.value}}</h3>
+    <h2 *ngIf="form.get('current')?.value.id">Edit</h2>
+    <h2 *ngIf="!form.get('current')?.value.id">Create</h2>
+
     <div formGroupName="current">
         <p>
             <span>ID</span> {{form.get('current')?.value.id}}
         </p>
         <p>
             <span>First Name</span><input [formControlName]="'firstName'">
+            <span style='color: red' *ngIf="form?.get('current')?.get('firstName')?.invalid">invalid</span>
         </p>
         <p>
             <span>Second Name</span><input [formControlName]="'secondName'">
+            <span style='color: red' *ngIf="form?.get('current')?.get('secondName')?.invalid">invalid</span>
         </p>
     </div>
+    <h3>Total: {{bus?.get("total")?.value}}</h3>
 </div>
