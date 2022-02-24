@@ -19,7 +19,8 @@ import { App1Module } from './app1/app1.module';
     App1Module
   ],
   providers: [
-  {provide: 'DEPENDENCY_RESOLVER', useClass: DynamicComponentsResolver}
+    {provide: 'DEPENDENCY_RESOLVER', useClass: DynamicComponentsResolver},
+    {provide: 'HOST_NAME', useValue: 'http://localhost:12345'}
 ],
   bootstrap: [AppComponent],
 })

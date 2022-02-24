@@ -12,7 +12,8 @@ import { DynamicComponentsResolver } from './dynamic-component-resolver.service'
     BrowserModule,
     AppRoutingModule],
   providers: [
-    {provide: 'DEPENDENCY_RESOLVER', useClass: DynamicComponentsResolver}
+    {provide: 'DEPENDENCY_RESOLVER', useClass: DynamicComponentsResolver},
+    {provide: 'HOST_NAME', useValue: 'http://localhost:1234'}
   ],
   bootstrap: [AppComponent],
 })
